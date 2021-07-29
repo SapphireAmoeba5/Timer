@@ -1,0 +1,10 @@
+#Directories
+Timer/bin/
+.vs/
+
+#Files
+*.vcxproj
+*.user
+*.filters
+Timer.sln
+Timer/src/Main.cpp
