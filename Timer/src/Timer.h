@@ -3,6 +3,9 @@
 #include <chrono>
 #include <array>
 #include <memory>
+#include <vector>
+#include <thread>
+//#include <initializer_list>
 
 typedef std::chrono::steady_clock::time_point time_point_timer;
 
@@ -22,7 +25,7 @@ public: // non-static Public funtions
 
 public: // Public operator overloads
 	const double operator()() const;
-
+	
 private:
 	time_point_timer m_Start;
 
