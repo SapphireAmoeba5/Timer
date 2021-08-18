@@ -57,7 +57,7 @@ namespace multithread
 	public: // non-static Public funtions
 		void Start();
 		template<typename F, typename... A>
-		void Invoke(uint32_t ms, F&& func, A&&... args);
+		void Invoke(uint32_t ms, F&& func, A... args);
 
 	public: // Public operator overloads
 		const double operator()() const;
@@ -76,9 +76,9 @@ namespace multithread
 	};
 
 	template<typename F, typename ...A>
-	void Timer::Invoke(uint32_t ms, F&& func, A&&... args)
+	void Timer::Invoke(uint32_t ms, F&& func, A... args)
 	{
-		std::thread dispatch([ms, &func, &args...]() {FuncDispatcher(ms, std::forward<F>(func), std::forward<A>(args)...); });
+		std::thread dispatch([ms, func, &args...]() {FuncDispatcher(ms, func, std::forward<A>(args)...); });
 		dispatch.detach();
 	}
 
