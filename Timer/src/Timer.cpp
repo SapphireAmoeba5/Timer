@@ -33,25 +33,6 @@ inline const void Timer::i_Start()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Multithreaded version of Timer (has extra functionality including 'Invoke')
-
-//TODO Finish this class. (DONT USE RIGHT NOW!)
 namespace multithread
 {
 	size_t Timer::s_ObjectCount = 0;
