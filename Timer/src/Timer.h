@@ -86,6 +86,6 @@ namespace multithread
 	void Timer::FuncDispatcher(uint32_t ms, F&& func, A && ...args)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-		func(args...);
+		func(std::forward<A>(args)...);
 	}
 }
