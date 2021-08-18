@@ -1,11 +1,9 @@
 #include "Timer.h"
 
-#include <iostream>
-
 size_t Timer::s_ObjectCount = 0;
 
 Timer::Timer()
-	:m_Start(std::chrono::high_resolution_clock::now()), m_Threads(new std::vector<std::thread>)
+	:m_Start(std::chrono::high_resolution_clock::now())
 {
 	
 }
@@ -13,7 +11,6 @@ Timer::Timer()
 Timer::~Timer()
 {
 	s_ObjectCount--;
-	delete m_Threads;
 }
 
 const void Timer::Start()

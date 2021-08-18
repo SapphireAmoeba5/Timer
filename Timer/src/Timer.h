@@ -1,13 +1,7 @@
 #pragma once
 
 #include <chrono>
-#include <array>
-#include <memory>
-#include <vector>
 #include <thread>
-#include <mutex>
-
-#include <iostream>
 
 typedef std::chrono::steady_clock::time_point time_point;
 
@@ -30,7 +24,6 @@ public: // Public operator overloads
 	
 private: // Private non-static variables
 	time_point m_Start;
-	std::vector<std::thread>* m_Threads;
 
 private: // Private static variables
 	static size_t s_ObjectCount;
