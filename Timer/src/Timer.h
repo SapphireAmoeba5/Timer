@@ -61,7 +61,7 @@ namespace multithread
 
 	private: // Private non-static variables
 		time_point m_Start;
-		//std::unique_ptr <std::vector<std::thread>> m_Threads;
+
 		std::vector<std::thread>* m_Threads;
 		size_t m_ThreadCount;
 

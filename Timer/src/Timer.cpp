@@ -51,14 +51,14 @@ inline const void Timer::i_Start()
 
 //Multithreaded version of Timer (has extra functionality including 'Invoke')
 
-//TODO Finish this class. DONT USE RIGHT NOW!)
+//TODO Finish this class. (DONT USE RIGHT NOW!)
 namespace multithread
 {
 	size_t Timer::s_ObjectCount = 0;
 	size_t Timer::s_ThreadCountStatic = 0;
 
 	Timer::Timer()
-		:m_Start(std::chrono::high_resolution_clock::now()), m_Threads(new std::vector<std::thread>())/*m_Threads(std::make_unique<std::vector<std::thread>>())*/, m_ThreadCount(0),
+		:m_Start(std::chrono::high_resolution_clock::now()), m_Threads(new std::vector<std::thread>()), m_ThreadCount(0),
 		m_DispatcherActive(true)
 	{
 		m_InvokeDispatcher = new std::thread(&InvokeDispatcherFunc, this);
@@ -69,7 +69,7 @@ namespace multithread
 		s_ObjectCount--;
 
 		m_DispatcherActive = false;
-		m_InvokeDispatcher->join();
+		m_InvokeDispatcher->detach();
 		delete m_InvokeDispatcher;
 
 		delete m_Threads;
