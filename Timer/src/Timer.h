@@ -5,6 +5,9 @@
 #include <memory>
 #include <vector>
 #include <thread>
+#include <mutex>
+
+#include <iostream>
 
 typedef std::chrono::steady_clock::time_point time_point;
 
@@ -36,7 +39,6 @@ private: // Non-static private functions
 	inline const void i_Start();
 };
 
-
 namespace multithread
 {
 	class Timer
@@ -51,10 +53,11 @@ namespace multithread
 				(std::chrono::high_resolution_clock::now() - m_Start).count();
 		}
 		inline static const size_t GetObjectCount() { return s_ObjectCount; }
-		//inline const bool GetDispatcherActive() const { return m_DispatcherActive; }
 
 	public: // non-static Public funtions
-		const void Start();
+		void Start();
+		template<typename F, typename... A>
+		void Invoke(uint32_t ms, F&& func, A&&... args);
 
 	public: // Public operator overloads
 		const double operator()() const;
@@ -62,22 +65,27 @@ namespace multithread
 	private: // Private non-static variables
 		time_point m_Start;
 
-		std::vector<std::thread>* m_Threads;
-		size_t m_ThreadCount;
-
-		bool m_DispatcherActive;
-
-		std::thread* m_InvokeDispatcher;
-
 	private: // Private static variables
 		static size_t s_ObjectCount;
 
-		static size_t s_ThreadCountStatic;
-
 	private: // Non-static private functions
 		inline const void i_Start();
-
 	private: // Static private functions
-		static void InvokeDispatcherFunc(const multithread::Timer* caller);
+		template<typename F, typename ...A>
+		static void FuncDispatcher(uint32_t ms, F&& func, A&&... args);
 	};
+
+	template<typename F, typename ...A>
+	void Timer::Invoke(uint32_t ms, F&& func, A&&... args)
+	{
+		std::thread dispatch([ms, &func, &args...]() {FuncDispatcher(ms, std::forward<F>(func), std::forward<A>(args)...); });
+		dispatch.detach();
+	}
+
+	template<typename F, typename ...A>
+	void Timer::FuncDispatcher(uint32_t ms, F&& func, A && ...args)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+		func(args...);
+	}
 }
