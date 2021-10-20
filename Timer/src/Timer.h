@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 
-typedef std::chrono::steady_clock::time_point time_point;
+typedef std::chrono::high_resolution_clock::time_point time_point;
 
 class Timer
 {
